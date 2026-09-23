@@ -41,51 +41,51 @@ def clean_data():
 
         logger.info("Connected to DuckDB instance")
 
-                # STEP 1: Remove duplicate trips
+        # STEP 1: Remove duplicate trips
         # Create a temporary table containing only unique Yellow taxi trips
-        #con.execute("""
-            #CREATE OR REPLACE TABLE yellow_trips_clean AS
-            #SELECT DISTINCT *
-            #FROM yellow_trips;
-        #""")
+        con.execute("""
+            CREATE OR REPLACE TABLE yellow_trips_clean AS
+            SELECT DISTINCT *
+            FROM yellow_trips;
+        """)
 
         # Replace the original Yellow table with the cleaned table
-        #con.execute("""
-            #DROP TABLE yellow_trips;
-            #ALTER TABLE yellow_trips_clean RENAME TO yellow_trips;
-        #""")
+        con.execute("""
+            DROP TABLE yellow_trips;
+            ALTER TABLE yellow_trips_clean RENAME TO yellow_trips;
+        """)
 
-        #yellow_count = con.execute(
-            #"SELECT COUNT(*) FROM yellow_trips"
-        #).fetchone()[0]
+        yellow_count = con.execute(
+            "SELECT COUNT(*) FROM yellow_trips"
+        ).fetchone()[0]
 
-        #print(f"Yellow rows after removing duplicates: {yellow_count}")
-        #logger.info(
-            #f"Yellow rows after removing duplicates: {yellow_count}"
-        #)
+        print(f"Yellow rows after removing duplicates: {yellow_count}")
+        logger.info(
+            f"Yellow rows after removing duplicates: {yellow_count}"
+        )
 
         # STEP 1 Remove duplicate Green taxi trips
-        #con.execute("""
-            #CREATE OR REPLACE TABLE green_trips_clean AS
-            #SELECT DISTINCT *
-            #FROM green_trips;
-        #""")
+        con.execute("""
+            CREATE OR REPLACE TABLE green_trips_clean AS
+            SELECT DISTINCT *
+            FROM green_trips;
+        """)
 
-        #con.execute("""
-            #DROP TABLE green_trips;
-            #ALTER TABLE green_trips_clean RENAME TO green_trips;
-        #""")
+        con.execute("""
+            DROP TABLE green_trips;
+            ALTER TABLE green_trips_clean RENAME TO green_trips;
+        """)
 
-        #green_count = con.execute(
-            #"SELECT COUNT(*) FROM green_trips"
-       # ).fetchone()[0]
+        green_count = con.execute(
+            "SELECT COUNT(*) FROM green_trips"
+        ).fetchone()[0]
 
-        #print(f"Green rows after removing duplicates: {green_count}")
-        #logger.info(
-         #   f"Green rows after removing duplicates: {green_count}"
-        #)
+        print(f"Green rows after removing duplicates: {green_count}")
+        logger.info(
+            f"Green rows after removing duplicates: {green_count}"
+        )
 
-                # Verify that no duplicate Yellow trips remain
+        # Verify that no duplicate Yellow trips remain
         yellow_total = con.execute("""
             SELECT COUNT(*) FROM yellow_trips
         """).fetchone()[0]
@@ -181,7 +181,7 @@ def clean_data():
             f"Green 0-passenger trips after delete (verify): {after}"
         )
 
-                # STEP 3: remove 0-mile trips
+        # STEP 3: remove 0-mile trips
 
         # Check how many Yellow trips have 0 miles
         before = con.execute("""
@@ -232,7 +232,7 @@ def clean_data():
         print(f"Green 0-mile trips after delete: {after}")
         logger.info(f"Green 0-mile trips after delete: {after}")
 
-                # STEP 4: trips over 100 miles
+        # STEP 4: trips over 100 miles
 
         # Yellow trips
         before = con.execute("""
@@ -275,7 +275,7 @@ def clean_data():
 
         print(f"Green - After delete (verify): {after}")
 
-                # STEP 5: trips over 1 day
+        # STEP 5: trips over 1 day
 
         # Yellow trips
         before = con.execute("""
