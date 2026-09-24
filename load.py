@@ -10,6 +10,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 def load_parquet_files():
+    """Load the 2024 taxi trip data and vehicle emissions into DuckDB."""
 
     con = None
 

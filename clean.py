@@ -25,6 +25,7 @@ logger = logging.getLogger(__name__)
 
 
 def clean_data():
+    """Clean the Yellow and Green taxi trip tables using the required rules."""
 
     con = None
 

@@ -35,12 +35,6 @@ def analyze_data():
         logger.info("Connected to DuckDB instance")
         print("Connected to DuckDB instance")
 
-        def analyze_data():
-
-            con = duckdb.connect(
-            database='emissions.duckdb',
-            read_only=False
-        )
 
         # STEP 1: Find the largest single CO2-producing trip.
 
