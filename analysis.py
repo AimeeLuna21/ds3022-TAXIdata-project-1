@@ -593,39 +593,60 @@ def analyze_data():
             'September', 'October', 'November', 'December'
         ]
 
-        # Create the line plot.
-        plt.figure(figsize=(10, 6))
+        # Create a line plot with two y-axes because Yellow and Green
+        # taxi CO2 values are very different in size.
+        fig, ax1 = plt.subplots(figsize=(10, 6))
 
-        plt.plot(
-            month_names,
-            yellow_co2,
-            marker='o',
-            label='Yellow Taxi'
-        )
+        # Convert CO2 from kilograms to tonnes for the graph.
+        yellow_co2_tonnes = [value / 1000 for value in yellow_co2]
+        green_co2_tonnes = [value / 1000 for value in green_co2]
 
-        plt.plot(
-            month_names,
-            green_co2,
-            marker='o',
-            label='Green Taxi'
-        )
+        # Plot Yellow Taxi CO2 on the left y-axis.
+        yellow_line, = ax1.plot(
+              month_names,
+              yellow_co2_tonnes,
+              marker='o',
+              color='gold',
+              label='Yellow Taxi'
+            )
 
-        plt.xlabel('Month')
-        plt.ylabel('Total CO2 (kg)')
-        plt.title('Total CO2 Output by Month')
-        plt.legend()
-        plt.xticks(rotation=45)
-        plt.tight_layout()
+        ax1.set_xlabel('Month')
+        ax1.set_ylabel('Yellow Taxi CO2 (tonnes)', color='gold')
+        ax1.tick_params(axis='y', labelcolor='gold')
+
+        # Create a second y-axis for Green Taxi CO2.
+        ax2 = ax1.twinx()
+
+        # Plot Green Taxi CO2 on the right y-axis.
+        green_line, = ax2.plot(
+              month_names,
+              green_co2_tonnes,
+              marker='o',
+              color='green',
+              label='Green Taxi'
+            )
+
+        ax2.set_ylabel('Green Taxi CO2 (tonnes)', color='green')
+        ax2.tick_params(axis='y', labelcolor='green')
+
+        # Add the title and format the x-axis.
+        ax1.set_title('Total CO2 Output by Month')
+        ax1.tick_params(axis='x', rotation=45)
+
+        # Add a legend showing which line represents each taxi type.
+        ax1.legend(
+              [yellow_line, green_line],
+              ['Yellow Taxi', 'Green Taxi'],
+              loc='upper left'
+            )
 
         # Save the plot as a PNG file.
-        plt.savefig('co2_by_month.png')
-        plt.close()
+        fig.tight_layout()
+        fig.savefig('co2_by_month.png')
+        plt.close(fig)
 
         print("Created CO2-by-month plot: co2_by_month.png")
         logger.info("Created CO2-by-month plot: co2_by_month.png")
-
-
-
 
     except Exception as e:
         # Print and log any errors that occur during analysis.
